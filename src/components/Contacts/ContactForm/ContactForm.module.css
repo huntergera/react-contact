@@ -1,3 +1,12 @@
-.buttonEdit {
-    margin-right: 8px;
+.form {
+    margin: 50px auto;
+    width: 300px;
+}
+
+.formButtons {
+    display: flex;
+}
+
+.buttonCancel {
+    margin-left: 8px;
 }
