@@ -1,6 +1,5 @@
 import React from "react";
 import styles from "./ContactItem.module.css"
-import {Link} from "react-router-dom";
 
 class ContactItem extends React.Component {
     constructor(props) {
@@ -26,9 +25,7 @@ class ContactItem extends React.Component {
                 <td>{lastName}</td>
                 <td>{phone}</td>
                 <td>
-                    {/*<Link to='/form'>*/}
-                        <button className={`${styles.buttonEdit} button button--orange`}>Edit</button>
-                    {/*</Link>*/}
+                    <button className={`${styles.buttonEdit} button button--orange`}>Edit</button>
                     <button className="button" onClick={this.onDeleteContact}>Delete</button>
                 </td>
             </tr>

@@ -1,7 +1,6 @@
 import React from "react";
 import styles from "./Contacts.module.css"
 import ContactList from "./ContactList/ContactList";
-import {BrowserRouter, Link, Route, Routes} from "react-router-dom";
 import Spinner from "../Spinner/Spinner";
 import ContactForm from "./ContactForm/ContactForm";
 
@@ -12,6 +11,7 @@ class Contacts extends React.Component {
             error: null,
             isLoaded: false,
             items: [],
+            pageShowed: 'contacts',
         }
     }
 
@@ -28,7 +28,6 @@ class Contacts extends React.Component {
                 this.setState({
                     error: error
                 });
-
             });
     }
 
@@ -63,10 +62,21 @@ class Contacts extends React.Component {
                 'Content-type': 'application/json; charset=UTF-8',
             },
         })
+        this.setState({
+            ...this.state,
+            items: this.state.items.push(contact)
+        })
+    }
+
+    onShowPage = pageName => {
+        this.setState({
+            ...this.state,
+            pageShowed: pageName
+        })
     }
 
     render() {
-        const {error, isLoaded, items} = this.state;
+        const {error, isLoaded, items, pageShowed} = this.state;
 
         if (error) return (
             <div className="container">
@@ -78,18 +88,28 @@ class Contacts extends React.Component {
                 <Spinner height="100" width="100" color="#ffe07d"/>
             </div>
         )
+        if (pageShowed === "contacts") {
+            return (
+                <div className="container">
+                    <ContactList
+                        state={items}
+                        onContactDeleted={this.onContactDeleted}
+                        onShowPage={this.onShowPage}
+                    />
+                </div>
+            );
+        }
 
-        return (
-            <BrowserRouter>
-                <Routes>
-                    <Route path="/"
-                           element= {<ContactList state={items} onContactDeleted={this.onContactDeleted} />} />
-                    <Route path="/form"
-                           element={<ContactForm handleFormSubmit={this.handleFormSubmit}/> }/>
-                </Routes>
-            </BrowserRouter>
-
-        )
+        if (pageShowed === "contactForm") {
+            return (
+                <div className="container">
+                    <ContactForm
+                        handleFormSubmit={this.handleFormSubmit}
+                        onShowPage={this.onShowPage}
+                    />
+                </div>
+            );
+        }
     }
 }
 

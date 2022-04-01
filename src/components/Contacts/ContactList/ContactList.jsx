@@ -1,6 +1,5 @@
 import React from "react";
 import styles from "./ContactList.module.css"
-import {Link} from "react-router-dom";
 import ContactItem from "./ContactItem/ContactItem";
 
 class ContactList extends React.Component {
@@ -13,6 +12,10 @@ class ContactList extends React.Component {
 
     onContactDeleted = (event) => {
         this.props.onContactDeleted(event);
+    }
+
+    onShowForm = () => {
+        this.props.onShowPage("contactForm");
     }
 
     render() {
@@ -33,13 +36,17 @@ class ContactList extends React.Component {
                         <ContactItem
                             currentItem={item}
                             key={item.id}
-                            onContactDeleted={this.onContactDeleted}/>
+                            onContactDeleted={this.onContactDeleted}
+                        />
                     ))}
                     </tbody>
                 </table>
-                <Link to='/form'>
-                    <button className={`${styles.buttonAdd} button button--blue`} >Add contact</button>
-                </Link>
+                <button
+                    className={`${styles.buttonAdd} button button--blue`}
+                    onClick={this.onShowForm}
+                >
+                    Add contact
+                </button>
             </div>
 
         )
