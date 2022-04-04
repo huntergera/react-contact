@@ -11,7 +11,9 @@ class Contacts extends React.Component {
             error: null,
             isLoaded: false,
             items: [],
-            pageShowed: 'contacts',
+            currentItem: {},
+            isEditMode: 'contacts',
+            // isEditMode true false
         }
     }
 
@@ -44,14 +46,17 @@ class Contacts extends React.Component {
 
     handleFormSubmit = values => {
         if (values.id) {
+        console.log(values)
             this.onEditContact(values);
+            console.log(1)
         } else {
             this.onAddContact(values);
+            console.log(2)
         }
     }
 
-    onAddContact = contact => {
-        fetch(`https://62378af1b08c39a3af813049.mockapi.io/contacts/contacts`, {
+    onAddContact = async contact => {
+        const newItem = await fetch(`https://62378af1b08c39a3af813049.mockapi.io/contacts/contacts`, {
             method: 'POST',
             body: JSON.stringify({
                 firstName: contact.firstName,
@@ -61,22 +66,43 @@ class Contacts extends React.Component {
             headers: {
                 'Content-type': 'application/json; charset=UTF-8',
             },
-        })
+        }).then((resp) => resp.json());
         this.setState({
             ...this.state,
-            items: this.state.items.push(contact)
+            items: [...this.state.items, newItem]
         })
     }
 
-    onShowPage = pageName => {
+    onEditContact = async contact => {
+        const updatedItem = await fetch(`https://jsonplaceholder.typicode.com/posts/${this.state.currentItem.id}`, {
+            method: 'PATCH',
+            body: JSON.stringify({
+                firstName: contact.firstName,
+                lastName: contact.lastName,
+                phoneNumber: contact.phoneNumber
+            }),
+            headers: {
+                'Content-type': 'application/json; charset=UTF-8',
+            },
+        }).then((resp) => resp.json());
         this.setState({
             ...this.state,
-            pageShowed: pageName
+            items: this.state.items.map(item => updatedItem.id === +item.id ? updatedItem : item)
+        })
+        console.log(updatedItem)
+
+    }
+
+    onShowPage = (pageName, currentItem) => {
+        this.setState({
+            ...this.state,
+            isEditMode: pageName,
+            currentItem,
         })
     }
 
     render() {
-        const {error, isLoaded, items, pageShowed} = this.state;
+        const {error, isLoaded, items, isEditMode, currentItem} = this.state;
 
         if (error) return (
             <div className="container">
@@ -88,7 +114,7 @@ class Contacts extends React.Component {
                 <Spinner height="100" width="100" color="#ffe07d"/>
             </div>
         )
-        if (pageShowed === "contacts") {
+        if (isEditMode === "contacts") {
             return (
                 <div className="container">
                     <ContactList
@@ -100,10 +126,11 @@ class Contacts extends React.Component {
             );
         }
 
-        if (pageShowed === "contactForm") {
+        if (isEditMode === "contactForm") {
             return (
                 <div className="container">
                     <ContactForm
+                        currentItem={currentItem}
                         handleFormSubmit={this.handleFormSubmit}
                         onShowPage={this.onShowPage}
                     />

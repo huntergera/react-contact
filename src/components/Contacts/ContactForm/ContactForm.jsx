@@ -1,6 +1,5 @@
 import React from "react";
 import styles from "./ContactForm.module.css"
-import {Link} from "react-router-dom";
 
 class ContactForm extends React.Component {
     constructor(props) {
@@ -10,13 +9,14 @@ class ContactForm extends React.Component {
             lastName: '',
             phone: '',
         }
-
     };
 
     componentDidMount() {
         this.setState({
             ...this.state,
-            ...this.props.currentItem,
+            firstName: this.props.currentItem.firstName,
+            lastName: this.props.currentItem.lastName,
+            phone: this.props.currentItem.phone,
         });
     }
 
@@ -29,7 +29,10 @@ class ContactForm extends React.Component {
 
     onSaveChanges = (event) => {
         event.preventDefault();
-        this.props.handleFormSubmit(this.state);
+        this.props.handleFormSubmit({
+            ...this.state,
+            id: this.props.currentItem?.id,
+        });
         this.onShowContacts();
     }
 
@@ -52,27 +55,28 @@ class ContactForm extends React.Component {
                 </div>
                 <div className="fieldWrap">
                     <label className="inputLabel">Last name</label>
-                    <input type="text"
-                           name="lastName"
-                           className="input"
-                           value={this.state.lastName}
-                           onChange={this.handleChange}
+                    <input
+                       type="text"
+                       name="lastName"
+                       className="input"
+                       value={this.state.lastName}
+                       onChange={this.handleChange}
                     />
                 </div>
                 <div className="fieldWrap">
                     <label className="inputLabel">Phone</label>
-                    <input type="text"
-                           name="phone"
-                           className="input"
-                           value={this.state.phone}
-                           onChange={this.handleChange}
+                    <input
+                       type="text"
+                       name="phone"
+                       className="input"
+                       value={this.state.phone}
+                       onChange={this.handleChange}
                     />
                 </div>
                 <div className={styles.formButtons}>
                     <button
                         type="submit"
                         className="button button--blue"
-                        onClick={this.onAddContact}
                     >
                         Submit
                     </button>

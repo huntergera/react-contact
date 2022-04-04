@@ -10,12 +10,12 @@ class ContactList extends React.Component {
         }
     }
 
-    onContactDeleted = (event) => {
-        this.props.onContactDeleted(event);
+    onContactDeleted = (currentItem) => {
+        this.props.onContactDeleted(currentItem);
     }
 
-    onShowForm = () => {
-        this.props.onShowPage("contactForm");
+    onShowForm = (currentItem) => {
+        this.props.onShowPage("contactForm", currentItem);
     }
 
     render() {
@@ -37,18 +37,17 @@ class ContactList extends React.Component {
                             currentItem={item}
                             key={item.id}
                             onContactDeleted={this.onContactDeleted}
+                            onShowForm={this.onShowForm}
                         />
                     ))}
                     </tbody>
                 </table>
                 <button
                     className={`${styles.buttonAdd} button button--blue`}
-                    onClick={this.onShowForm}
-                >
+                    onClick={this.onShowForm}>
                     Add contact
                 </button>
             </div>
-
         )
     }
 }

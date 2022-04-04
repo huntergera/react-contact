@@ -16,20 +16,31 @@ class ContactItem extends React.Component {
         this.props.onContactDeleted(this.props.currentItem);
     }
 
+    onShowForm = () => {
+        this.props.onShowForm(this.props.currentItem);
+    }
+
     render() {
         const {id, firstName, lastName, phone} = this.props.currentItem;
 
         return (
-            <tr key={id}>
+            <tr>
                 <td>{firstName}</td>
                 <td>{lastName}</td>
                 <td>{phone}</td>
                 <td>
-                    <button className={`${styles.buttonEdit} button button--orange`}>Edit</button>
-                    <button className="button" onClick={this.onDeleteContact}>Delete</button>
+                    <button
+                        className={`${styles.buttonEdit} button button--orange`}
+                        onClick={this.onShowForm}>
+                            Edit
+                    </button>
+                    <button
+                        className="button"
+                        onClick={this.onDeleteContact}>
+                            Delete
+                    </button>
                 </td>
             </tr>
-
         )
     }
 }
