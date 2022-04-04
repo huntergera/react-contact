@@ -12,8 +12,7 @@ class Contacts extends React.Component {
             isLoaded: false,
             items: [],
             currentItem: {},
-            isEditMode: 'contacts',
-            // isEditMode true false
+            isEditMode: false,
         }
     }
 
@@ -74,20 +73,16 @@ class Contacts extends React.Component {
     }
 
     onEditContact = async contact => {
-        const updatedItem = await fetch(`https://jsonplaceholder.typicode.com/posts/${this.state.currentItem.id}`, {
-            method: 'PATCH',
-            body: JSON.stringify({
-                firstName: contact.firstName,
-                lastName: contact.lastName,
-                phoneNumber: contact.phoneNumber
-            }),
+        const updatedItem = await fetch(`https://62378af1b08c39a3af813049.mockapi.io/contacts/contacts/${this.state.currentItem.id}`, {
+            method: 'PUT',
+            body: JSON.stringify(contact),
             headers: {
                 'Content-type': 'application/json; charset=UTF-8',
             },
         }).then((resp) => resp.json());
         this.setState({
             ...this.state,
-            items: this.state.items.map(item => updatedItem.id === +item.id ? updatedItem : item)
+            items: this.state.items.map(item => updatedItem.id === item.id ? updatedItem : item)
         })
         console.log(updatedItem)
 
@@ -114,7 +109,7 @@ class Contacts extends React.Component {
                 <Spinner height="100" width="100" color="#ffe07d"/>
             </div>
         )
-        if (isEditMode === "contacts") {
+        if (isEditMode === false) {
             return (
                 <div className="container">
                     <ContactList
@@ -126,7 +121,7 @@ class Contacts extends React.Component {
             );
         }
 
-        if (isEditMode === "contactForm") {
+        if (isEditMode === true) {
             return (
                 <div className="container">
                     <ContactForm

@@ -14,9 +14,9 @@ class ContactForm extends React.Component {
     componentDidMount() {
         this.setState({
             ...this.state,
-            firstName: this.props.currentItem.firstName,
-            lastName: this.props.currentItem.lastName,
-            phone: this.props.currentItem.phone,
+            firstName: this.props.currentItem ? this.props.currentItem.firstName : "",
+            lastName: this.props.currentItem ? this.props.currentItem.lastName : "",
+            phone: this.props.currentItem ? this.props.currentItem.phone : "",
         });
     }
 
@@ -37,7 +37,7 @@ class ContactForm extends React.Component {
     }
 
     onShowContacts = () => {
-        this.props.onShowPage("contacts");
+        this.props.onShowPage(false);
     }
 
     render() {

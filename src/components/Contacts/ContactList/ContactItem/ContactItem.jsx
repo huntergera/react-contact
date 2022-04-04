@@ -21,7 +21,7 @@ class ContactItem extends React.Component {
     }
 
     render() {
-        const {id, firstName, lastName, phone} = this.props.currentItem;
+        const {firstName, lastName, phone} = this.props.currentItem;
 
         return (
             <tr>

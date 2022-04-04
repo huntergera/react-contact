@@ -15,7 +15,7 @@ class ContactList extends React.Component {
     }
 
     onShowForm = (currentItem) => {
-        this.props.onShowPage("contactForm", currentItem);
+        this.props.onShowPage(true, currentItem);
     }
 
     render() {
