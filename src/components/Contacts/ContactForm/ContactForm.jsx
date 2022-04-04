@@ -49,7 +49,7 @@ class ContactForm extends React.Component {
                         type="text"
                         name="firstName"
                         className="input"
-                        value={this.state.firstName}
+                        value={this.state.firstName || ''}
                         onChange={this.handleChange}
                     />
                 </div>
@@ -59,7 +59,7 @@ class ContactForm extends React.Component {
                        type="text"
                        name="lastName"
                        className="input"
-                       value={this.state.lastName}
+                       value={this.state.lastName || ''}
                        onChange={this.handleChange}
                     />
                 </div>
@@ -69,7 +69,7 @@ class ContactForm extends React.Component {
                        type="text"
                        name="phone"
                        className="input"
-                       value={this.state.phone}
+                       value={this.state.phone || ''}
                        onChange={this.handleChange}
                     />
                 </div>

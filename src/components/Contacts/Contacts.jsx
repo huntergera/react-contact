@@ -45,12 +45,9 @@ class Contacts extends React.Component {
 
     handleFormSubmit = values => {
         if (values.id) {
-        console.log(values)
             this.onEditContact(values);
-            console.log(1)
         } else {
             this.onAddContact(values);
-            console.log(2)
         }
     }
 
@@ -84,8 +81,6 @@ class Contacts extends React.Component {
             ...this.state,
             items: this.state.items.map(item => updatedItem.id === item.id ? updatedItem : item)
         })
-        console.log(updatedItem)
-
     }
 
     onShowPage = (pageName, currentItem) => {
